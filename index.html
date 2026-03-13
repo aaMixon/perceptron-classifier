@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Perceptron L vs T</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<h1>L vs T Perceptron Classifier</h1>
+
+<button onclick="train()">Train Model</button>
+<button onclick="predict()">Predict</button>
+
+<p id="result"></p>
+
+<script src="dataset.js"></script>
+<script src="perceptron.js"></script>
+
+<script>
+
+const perceptron = new Perceptron(25);
+
+function train(){
+
+ for(let epoch=0; epoch<50; epoch++){
+
+  for(let sample of dataset){
+   perceptron.train(sample[0], sample[1]);
+  }
+
+ }
+
+ alert("Training Complete");
+
+}
+
+function predict(){
+
+ const testImage =
+ [1,0,0,0,0,
+  1,0,0,0,0,
+  1,0,0,0,0,
+  1,0,0,0,0,
+  1,1,1,1,1];
+
+ const result = perceptron.predict(testImage);
+
+ document.getElementById("result").innerText =
+ result === 1 ? "Prediction: T" : "Prediction: L";
+
+}
+
+</script>
+
+</body>
+</html>
