@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Web Perceptron Device</title>
+    <style>
+        body { background: #1a001f; color: #ffd6f0; font-family: 'Courier New', monospace; text-align: center; }
+        .grid { display: grid; grid-template-columns: repeat(3, 60px); gap: 10px; justify-content: center; margin: 30px; }
+        .pixel { width: 60px; height: 60px; border: 2px solid #ff66cc; background: #330033; cursor: pointer; border-radius: 4px; }
+        .pixel.on { background: #ff4da6; box-shadow: 0 0 15px #ff4da6; border-color: #ff99dd; }
+        .meter-box { border: 2px solid #ff66cc; padding: 20px; width: 200px; margin: 0 auto; background: #260026; }
+        #output-meter { font-size: 24px; color: #ff99dd; }
+        button { padding: 10px 25px; background: #ff4da6; color: white; border: 1px solid #ff99dd; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h1>Perceptron Classifier</h1>
+
+    <div class="grid" id="grid">
+        <div class="pixel" onclick="toggle(this)"></div><div class="pixel" onclick="toggle(this)"></div><div class="pixel" onclick="toggle(this)"></div>
+        <div class="pixel" onclick="toggle(this)"></div><div class="pixel" onclick="toggle(this)"></div><div class="pixel" onclick="toggle(this)"></div>
+        <div class="pixel" onclick="toggle(this)"></div><div class="pixel" onclick="toggle(this)"></div><div class="pixel" onclick="toggle(this)"></div>
+    </div>
+
+    <div class="meter-box">
+        <div id="output-meter">RESULT: ?</div>
+    </div>
+    <br>
+    <button onclick="predict()">Predict</button>
+    <button onclick="reset()">RESET</button>
+
+    <script>
+        const weights = [0.0, 0.01, 0.01, 0.0, 0.01, 0.0, -0.01, -0.01, -0.01];
+        const bias = 0.02;
+
+        function toggle(el) { el.classList.toggle('on'); }
+
+        function predict() {
+            const pixels = document.querySelectorAll('.pixel');
+            let linearProduct = bias;
+
+            pixels.forEach((p, i) => {
+                const x_i = p.classList.contains('on') ? 1 : 0;
+                linearProduct += x_i * weights[i];
+            });
+
+            const result = linearProduct >= 0 ? "DETECTED: T" : "DETECTED: L"; document.getElementById('output-meter').innerText =  
+            result + " (" + linearProduct.toFixed(3) + ")";
+        }
+
+        function reset() {
+            document.querySelectorAll('.pixel').forEach(p => p.classList.remove('on'));
+            document.getElementById('output-meter').innerText = "RESULT: ?";
+        }
+    </script>
+</body>
+</html>
